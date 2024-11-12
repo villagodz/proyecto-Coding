@@ -1,16 +1,20 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
 
-const connectDB = async () => {
+dotenv.config();
+
+const URI_MONGODB = process.env.MONGODB_URI;
+
+async function conectarDB() {
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
+    await mongoose.connect(URI_MONGODB, {
+      dbName: 'PedidosYa',
     });
-    console.log('MongoDB conectado');
+    console.log("¡Conexión exitosa a MongoDB!");
   } catch (error) {
-    console.error(error);
-    process.exit(1);
+    console.error("Error al conectar a MongoDB", error);
+    throw error;
   }
-};
+}
 
-module.exports = connectDB;
+export default conectarDB;
